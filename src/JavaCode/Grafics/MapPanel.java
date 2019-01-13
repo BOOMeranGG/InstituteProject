@@ -316,7 +316,7 @@ class MapPanel extends JPanel {
         if (bottom(house.x, house.y)) {
             return new Cell(house.x, house.y + 1);
         }
-        if (top(house.x, house.y)) {
+        if (left(house.x, house.y)) {
             return new Cell(house.x - 1, house.y);
         }
         String message = "Нет дороги около дома в точке [" + house.x + ", " + house.y + "]";
