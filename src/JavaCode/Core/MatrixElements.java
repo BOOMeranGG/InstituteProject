@@ -4,5 +4,7 @@ public enum MatrixElements {
     CELL,
     WALL,
     ROAD,
-    VISI
+    VISI,
+    BADROAD,
+    HOUSE
 }
