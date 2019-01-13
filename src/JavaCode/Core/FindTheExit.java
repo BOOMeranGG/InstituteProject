@@ -1,6 +1,7 @@
 package JavaCode.Core;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Stack;
 
@@ -10,6 +11,7 @@ public class FindTheExit {
     private int y1;
     public int x2;
     public int y2;
+    public List<Cell> roadList; //Путь, которому прошел
 
 //TODO: ЧЕТКО
     public MatrixElements[][] getMatrix() {
@@ -35,6 +37,16 @@ public class FindTheExit {
         Cell neighbourCell; //ячейка сосед
         List<Cell> listNeighbours;  //Список соседей
         Stack<Cell> stack = new Stack<>();
+/**
+ * Для передачи верной дороги
+ * roadList передается геттеру для дальнейшего использоваания
+ */
+//TODO: СОМНИТЕЛЬНО
+        while (!stack.empty()) {    //Пока стек НЕ пуст
+            roadList.add(stack.pop());  //Запись ячеек из стека в лист
+            //roadList.add(0, stack.pop());
+            Collections.reverse(roadList);
+        }
 
         do {
             listNeighbours = getNeighbours(currentCell);    // Проверяем соседей (количество, расположение)
@@ -54,6 +66,10 @@ public class FindTheExit {
                 break;
             }
         } while (!isExit(currentCell));
+    }
+
+   public List<Cell> getRoadList(){
+        return roadList;
     }
 
     /**
