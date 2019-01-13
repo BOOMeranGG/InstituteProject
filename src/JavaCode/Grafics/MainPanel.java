@@ -18,6 +18,10 @@ class MainPanel extends JPanel {
     private JButton buttonMap;
     private JButton buttonMan;
     private JButton buttonWay;
+    private JButton buttonPlus;
+    private JButton buttonMinus;
+    private JLabel speed;
+
 
     MainPanel() {
         setSize(609, 678);
@@ -49,6 +53,9 @@ class MainPanel extends JPanel {
         add(sliderHeight).setBounds(70, 569, 420, 46);
         sliderHouses = createSlider(2, 50, 30, 1, 156);
         add(sliderHouses).setBounds(70, 622, 420, 46);
+
+        speed = new JLabel("1");
+        add(speed).setBounds(552, 360, 42, 40);
     }
 
     private void initializeButtons() {
@@ -58,10 +65,14 @@ class MainPanel extends JPanel {
         add(buttonB).setBounds(560, 10, 40, 40);
         buttonMap = new JButton(new ImageIcon("res/iconBtnMap.png"));
         add(buttonMap).setBounds(510, 60, 90, 90);
-        buttonMan = new JButton(new ImageIcon("res/iconBtnMan.png"));
-        add(buttonMan).setBounds(510, 160, 90, 90);
         buttonWay = new JButton(new ImageIcon("res/iconBtnWay.png"));
-        add(buttonWay).setBounds(510, 260, 90, 90);
+        add(buttonWay).setBounds(510, 160, 90, 90);
+        buttonMan = new JButton(new ImageIcon("res/iconBtnMan.png"));
+        add(buttonMan).setBounds(510, 260, 90, 90);
+        buttonMinus = new JButton("-");
+        add(buttonMinus).setBounds(510, 360, 41, 40);
+        buttonPlus = new JButton("+");
+        add(buttonPlus).setBounds(559, 360, 41, 40);
     }
 
     private JSlider createSlider(int min, int max, int value, int minor, int major) {
@@ -86,6 +97,20 @@ class MainPanel extends JPanel {
         });
         buttonMan.addActionListener(e -> mapPanel.displayMan());
         buttonWay.addActionListener(e -> mapPanel.displayWay());
+        buttonPlus.addActionListener(e -> {
+            int local = Integer.parseInt(speed.getText());
+            if (local < 9) {
+                mapPanel.setSpeed(local + 1);
+                speed.setText(String.valueOf(local + 1));
+            }
+        });
+        buttonMinus.addActionListener(e -> {
+            int local = Integer.parseInt(speed.getText());
+            if (local > 1) {
+                mapPanel.setSpeed(local - 1);
+                speed.setText(String.valueOf(local - 1));
+            }
+        });
     }
 
     /**
