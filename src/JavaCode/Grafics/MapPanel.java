@@ -15,6 +15,7 @@ class MapPanel extends JPanel {
     private int width;
     private int height;
     private int housesNum;
+    private int speed;
     private int x1;
     private int y1;
     private int squareSize;
@@ -57,6 +58,7 @@ class MapPanel extends JPanel {
         regenerate();
         mapMouseListener = new MapMouseListener(this, houses, x1, y1, squareSize);
         addMouseListener(mapMouseListener);
+        setSpeed(1);
     }
 
     void generateMap(int width, int height, int housesNum) {
@@ -65,14 +67,18 @@ class MapPanel extends JPanel {
         this.housesNum = housesNum;
     }
 
+    void setSpeed(int speed) {
+        this.speed = speed;
+    }
+
     void regenerate() {
         manBool = false;
         thread.stop();
-        mapGenerator = new Labyrinth(width, height);
+        mapGenerator = new Labyrinth(width / 2, height / 2);
+        wayFinder = null;
         mapGenerator.generate();
         mapGenerator.generateHouses(housesNum);
         field = mapGenerator.getMatrix();
-        wayFinder = new FindTheExit();
         houses = getHouses();
         randBeginHouse();
         randEndHouse();
@@ -94,12 +100,15 @@ class MapPanel extends JPanel {
     }
 
     void displayWay() {
+        Cell begin = getRoad(houseBeginPoint);
+        Cell end = getRoad(houseEndPoint);
+        wayFinder = new FindTheExit(field, begin.x, begin.y, end.x, end.y);
         wayFinder.findExit();
         repaint();
     }
 
     void displayMan() {
-        if (!manBool) {
+        if (!manBool && wayFinder != null) {
             manBool = true;
             way = wayFinder.getRoadList();
             thread = new Thread(() -> {
@@ -107,7 +116,7 @@ class MapPanel extends JPanel {
                     manId = k;
                     repaint();
                     try {
-                        Thread.sleep(1000);
+                        Thread.sleep(1000 / speed);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -133,6 +142,9 @@ class MapPanel extends JPanel {
             for (int j = 0; j < height; j++) {
                 switch (field[i][j]) {
                     case ROAD:
+                        drawRoad(g, i, j);
+                        break;
+                    case BADROAD:
                         drawRoad(g, i, j);
                         break;
                     case WALL:
@@ -247,25 +259,29 @@ class MapPanel extends JPanel {
     private boolean right(int i, int j) {
         return i < width - 1 &&
                 (field[i + 1][j].equals(MatrixElements.ROAD)
-                        || field[i + 1][j].equals(MatrixElements.VISI));
+                        || field[i + 1][j].equals(MatrixElements.VISI)
+                        || field[i + 1][j].equals(MatrixElements.BADROAD));
     }
 
     private boolean bottom(int i, int j) {
         return j < height - 1
                 && (field[i][j + 1].equals(MatrixElements.ROAD)
-                || field[i][j + 1].equals(MatrixElements.VISI));
+                || field[i][j + 1].equals(MatrixElements.VISI)
+                || field[i][j + 1].equals(MatrixElements.BADROAD));
     }
 
     private boolean left(int i, int j) {
         return i > 0
                 && (field[i - 1][j].equals(MatrixElements.ROAD)
-                || field[i - 1][j].equals(MatrixElements.VISI));
+                || field[i - 1][j].equals(MatrixElements.VISI)
+                || field[i - 1][j].equals(MatrixElements.BADROAD));
     }
 
     private boolean top(int i, int j) {
         return j > 0
                 && (field[i][j - 1].equals(MatrixElements.ROAD)
-                || field[i][j - 1].equals(MatrixElements.VISI));
+                || field[i][j - 1].equals(MatrixElements.VISI)
+                || field[i][j - 1].equals(MatrixElements.BADROAD));
     }
 
     public void click(int id, boolean isLeftClick) {
@@ -292,13 +308,13 @@ class MapPanel extends JPanel {
 
     private Cell getRoad(Cell house) {
         if (top(house.x, house.y)) {
-            return new Cell(house.x, house.y + 1);
+            return new Cell(house.x, house.y - 1);
         }
         if (right(house.x, house.y)) {
             return new Cell(house.x + 1, house.y);
         }
         if (bottom(house.x, house.y)) {
-            return new Cell(house.x, house.y - 1);
+            return new Cell(house.x, house.y + 1);
         }
         if (top(house.x, house.y)) {
             return new Cell(house.x - 1, house.y);
@@ -312,7 +328,8 @@ class MapPanel extends JPanel {
         manBool = false;
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
-                if (field[i][j].equals(MatrixElements.VISI)) {
+                if (field[i][j].equals(MatrixElements.VISI)
+                        || field[i][j].equals(MatrixElements.BADROAD)) {
                     field[i][j] = MatrixElements.ROAD;
                 }
             }
