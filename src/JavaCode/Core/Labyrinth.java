@@ -132,11 +132,12 @@ public class Labyrinth {
     }
 
     /**
-     * Считаем количество стен с помощью встроенных функций. Определяем шанс по
+     * Считаем количество стен с помощью встроенных функций - периметр. Определяем шанс по
      * формуле: (количество стен/количество домов). В цикле проходим по всем элементам,
      * определяя случайное число в диапазоне (0..количество стен). Если он <= переменной
      * chance, то ставим здесь дом. Цикл бесконечный, и если все дома не расставлены, снова
      * начинаем с первой клетки. Если количество домов стало равным 0, выходим по метке.
+     * По периметру дома не генерируются!
      * @param countOfHouses - количество домов, которые необходимо сгенерировать
      */
     public void generateHouses(int countOfHouses) {
@@ -145,11 +146,11 @@ public class Labyrinth {
             countOfWall += Collections.frequency(Arrays.asList(matrix[0]), MatrixElements.WALL);
         }
 
-        int chance = countOfWall / countOfHouses;
+        int chance = (countOfWall / countOfHouses) - (matrix.length * matrix[0].length);
         exitlabel:
         while (true) {
-            for (int i = 0; i < matrix.length; i++) {
-                for (int j = 0; j < matrix[0].length; j++) {
+            for (int i = 1; i < matrix.length - 1; i++) {
+                for (int j = 1; j < matrix[0].length - 1; j++) {
 
                     if (matrix[i][j] != MatrixElements.WALL)                //Если не стена, то пропускаем
                         continue;
