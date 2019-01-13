@@ -9,17 +9,17 @@ public class FindTheExit {
     private MatrixElements matrix[][];
     private int x1;
     private int y1;
-    public int x2;
-    public int y2;
-    public List<Cell> roadList; //Путь, которому прошел
+    private int x2;
+    private int y2;
+    private List<Cell> roadList; //Путь, которому прошел
 
-//TODO: ЧЕТКО
+    //TODO: ЧЕТКО
     public MatrixElements[][] getMatrix() {
         return matrix;
     }
 
-//TODO: ЧЕТКО
-    FindTheExit(MatrixElements[][] matrix, int x1, int y1, int x2, int y2) {
+    //TODO: ЧЕТКО
+    public FindTheExit(MatrixElements[][] matrix, int x1, int y1, int x2, int y2) {
         this.x1 = x1;
         this.x2 = x2;
         this.y1 = y1;
@@ -31,7 +31,7 @@ public class FindTheExit {
      * основная логика поиска пути
      */
 //TODO: ЧЕТКО
-    public void findExit(){
+    public void findExit() {
         Cell currentCell = new Cell(x1, y1);    //начальная ячейка
         matrix[currentCell.getX()][currentCell.getY()] = MatrixElements.VISI;   //отмечаем как посещенная
         Cell neighbourCell; //ячейка сосед
@@ -41,12 +41,6 @@ public class FindTheExit {
  * Для передачи верной дороги
  * roadList передается геттеру для дальнейшего использоваания
  */
-//TODO: СОМНИТЕЛЬНО
-        while (!stack.empty()) {    //Пока стек НЕ пуст
-            roadList.add(stack.pop());  //Запись ячеек из стека в лист
-            //roadList.add(0, stack.pop());
-            Collections.reverse(roadList);
-        }
 
         do {
             listNeighbours = getNeighbours(currentCell);    // Проверяем соседей (количество, расположение)
@@ -66,26 +60,24 @@ public class FindTheExit {
                 break;
             }
         } while (!isExit(currentCell));
+
+        stack.add(new Cell(x2, y2));
+        roadList = new ArrayList<>(stack);
+
     }
 
-   public List<Cell> getRoadList(){
+    public List<Cell> getRoadList() {
         return roadList;
     }
 
     /**
-     *метод, который проверяет, является ли переданная ячейка Cell(напоминаю,
-     *что Cell содержит координаты Х и У) выходом из лабиринта.
-     *Метод возвращает true, если выход найден
+     * метод, который проверяет, является ли переданная ячейка Cell(напоминаю,
+     * что Cell содержит координаты Х и У) выходом из лабиринта.
+     * Метод возвращает true, если выход найден
      */
 //TODO: ЧЕТКО
     private boolean isExit(Cell cell) {
-        /*if ( (x2 == cell.getX()) && (y2 == cell.getY())){
-          return true;
-        }
-        return false;*/
-        if (cell.getX() == matrix.length - 2 && cell.getY() == matrix[0].length - 2) {
-            return cell.getX() == matrix.length - 2 && cell.getY() == matrix[0].length - 2;}
-        return cell.getX() == matrix.length - 2 && cell.getY() == matrix[0].length - 2;
+        return (x2 == cell.getX()) && (y2 == cell.getY());
     }
 
     /**
@@ -93,6 +85,7 @@ public class FindTheExit {
      * Метод проводит некоторые действия и выясняет,
      * какие НЕПОСЕЩЁННЫЕ соседи есть у этой ячейки и
      * возвращает List<Cell> - список со всеми непосещёнными соседями ROAD
+     *
      * @param c
      * @return
      */
