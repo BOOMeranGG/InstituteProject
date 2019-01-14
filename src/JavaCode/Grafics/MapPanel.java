@@ -10,8 +10,6 @@ import java.util.List;
 class MapPanel extends JPanel {
 
     private MapMouseListener mapMouseListener;
-    private final int WIDTH = 500;
-    private final int HEIGHT = 500;
     private int width;
     private int height;
     private int housesNum;
@@ -102,7 +100,7 @@ class MapPanel extends JPanel {
     void displayWay() {
         Cell begin = getRoad(houseBeginPoint);
         Cell end = getRoad(houseEndPoint);
-        if  (wayFinder == null) {
+        if (wayFinder == null) {
             wayFinder = new FindTheExit(field, begin.x, begin.y, end.x, end.y);
             wayFinder.findExit();
         }
@@ -137,9 +135,10 @@ class MapPanel extends JPanel {
     }
 
     private void drawField(Graphics g) {
-        squareSize = Math.min(WIDTH / width, HEIGHT / height);
-        x1 = (WIDTH - width * squareSize) / 2;
-        y1 = (HEIGHT - height * squareSize) / 2;
+        System.out.println("[" + getWidth() + ", " + getHeight() + "]");
+        squareSize = Math.min(getWidth() / width, getHeight() / height);
+        x1 = (getWidth() - width * squareSize) / 2;
+        y1 = (getHeight() - height * squareSize) / 2;
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
                 switch (field[i][j]) {
