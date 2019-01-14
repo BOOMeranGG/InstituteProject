@@ -27,6 +27,10 @@ public class FindTheExit {
         this.matrix = matrix;
     }
 
+    public List<Cell> getRoadList() {
+        return roadList;
+    }
+
     /**
      * основная логика поиска пути
      */
@@ -56,18 +60,13 @@ public class FindTheExit {
             } else {
                 //Если нет соседей и точек в стеке, но не все точки посещены
                 //выбираем случайную из непосещенных
-                System.out.println("Выхода нет((\n");
+                System.err.println("Выхода нет((\n");
                 break;
             }
         } while (!isExit(currentCell));
 
         stack.add(new Cell(x2, y2));
         roadList = new ArrayList<>(stack);
-
-    }
-
-    public List<Cell> getRoadList() {
-        return roadList;
     }
 
     /**
@@ -85,9 +84,6 @@ public class FindTheExit {
      * Метод проводит некоторые действия и выясняет,
      * какие НЕПОСЕЩЁННЫЕ соседи есть у этой ячейки и
      * возвращает List<Cell> - список со всеми непосещёнными соседями ROAD
-     *
-     * @param c
-     * @return
      */
 //TODO: Есть подозрение, что логика храмает
     private List<Cell> getNeighbours(Cell c) {

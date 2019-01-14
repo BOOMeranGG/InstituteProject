@@ -50,7 +50,7 @@ public class Labyrinth {
             } else {
                 //Если нет соседей и точек в стеке, но не все точки посещены
                 //выбираем случайную из непосещенных
-                System.out.println("Мисье, я удивлён, как этот код оказался здесь. Вероятно, у вас ошибка!\n");
+                System.err.println("Мисье, я удивлён, как этот код оказался здесь. Вероятно, у вас ошибка!\n");
                 break;
             }
         } while (getUnvisitedCount());
@@ -132,20 +132,24 @@ public class Labyrinth {
     }
 
     /**
-     * Считаем количество стен с помощью встроенных функций - периметр. Определяем шанс по
-     * формуле: (количество стен/количество домов). В цикле проходим по всем элементам,
-     * определяя случайное число в диапазоне (0..количество стен). Если он <= переменной
-     * chance, то ставим здесь дом. Цикл бесконечный, и если все дома не расставлены, снова
-     * начинаем с первой клетки. Если количество домов стало равным 0, выходим по метке.
-     * По периметру дома не генерируются!
+     * Считаем количество стен - периметр. Определяем шанс поформуле:
+     * 1 к (количество стен/количество домов). В цикле проходим по всем элементам,
+     * определяя случайное число в диапазоне (0..chance). Если он = 1то ставим здесь дом.
+     * Цикл бесконечный, и если все дома не расставлены, снова начинаем с первой клетки.
+     * Если количество домов стало равным 0, выходим по метке. По периметру дома не генерируются!
      * @param countOfHouses - количество домов, которые необходимо сгенерировать
      */
     public void generateHouses(int countOfHouses) {
         int countOfWall = 0;
         for (int i = 0; i < matrix.length; i++) {
-            countOfWall += Collections.frequency(Arrays.asList(matrix[0]), MatrixElements.WALL);
+            for (int j = 0; j < matrix[0].length; j++) {
+                if (matrix[i][j] == MatrixElements.WALL)
+                    countOfWall++;
+            }
         }
-        countOfWall -= (matrix.length * matrix[0].length);
+        countOfWall -= (2 * (matrix.length + matrix[0].length));
+        if (countOfHouses > countOfWall)                                    //Если количество домов задано слишком много
+            countOfHouses = countOfWall - 1;
 
         int chance = (countOfWall / countOfHouses);
         exitlabel:
@@ -155,8 +159,9 @@ public class Labyrinth {
 
                     if (matrix[i][j] != MatrixElements.WALL)                //Если не стена, то пропускаем
                         continue;
-                    int randN = (int) (Math.random() * countOfWall);        //Рандомим число
-                    if (randN <= chance) {                                  //Число <= шанс
+                    int randN = (int) (Math.random() * chance);             //Рандомим число
+                    if (randN == 1) {
+                        //if (matrix[i])
                         countOfHouses--;
                         matrix[i][j] = MatrixElements.HOUSE;
                         if (countOfHouses == 0)                             //Если дома закончились, выход
