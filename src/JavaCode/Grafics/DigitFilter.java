@@ -24,7 +24,5 @@ public class DigitFilter extends DocumentFilter {
             super.replace(fb, offset, length, string, attrs);
         }
     }
-
-
 }
 

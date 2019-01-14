@@ -40,7 +40,7 @@ public class Labyrinth {
         matrix[currentCell.getX()][currentCell.getY()] = ROAD;
         do {
             listNeighbours = getNeighbours(currentCell);
-            if (listNeighbours.size() != 0) {  //Если у клетки есть непосещённые соседи
+            if (listNeighbours.size() != 0) {                               //Если у клетки есть непосещённые соседи
                     int randN = (int) (Math.random() * listNeighbours.size());
                     neighbourCell = listNeighbours.get(randN);
                     stack.push(currentCell);
@@ -66,10 +66,10 @@ public class Labyrinth {
         for (int i = 0; i < matrix.length; i++) {
             for (int j = 0; j < matrix[i].length; j++) {
                 if ((i % 2 != 0 && j % 2 != 0) && (i < matrix.length - 1    //Если ячейка нечётная по x и y
-                        && j < matrix[i].length))                           //И находится в пределах стен лабиринта
-                    matrix[i][j] = CELL;                     //То это - клетка
+                                                && j < matrix[i].length))   //И находится в пределах стен лабиринта
+                    matrix[i][j] = CELL;                                    //То это - клетка
                 else
-                    matrix[i][j] = WALL;                     //В остальных случаях - стена
+                    matrix[i][j] = WALL;                                    //В остальных случаях - стена
             }
         }
     }
@@ -160,7 +160,7 @@ public class Labyrinth {
         while (true) {
             for (int i = 1; i < matrix.length - 1; i++) {
                 for (int j = 1; j < matrix[0].length - 1; j++) {
-                    if (matrix[i][j] != WALL)                //Если не стена, то пропускаем
+                    if (matrix[i][j] != WALL)                               //Если не стена, то пропускаем
                         continue;
                     int randN = (int) (Math.random() * chance);             //Рандомим число
                     if (randN == 1) {
@@ -168,13 +168,12 @@ public class Labyrinth {
                         MatrixElements right = matrix[i][j + 1];
                         MatrixElements bot = matrix[i + 1][j];
                         MatrixElements left = matrix[i][j - 1];
-                                                                            //Если стены(дома) по всем 4ём сторонам вокруг
-                        if ((top == WALL || top == HOUSE) &&
+
+                        if ((top == WALL || top == HOUSE) &&                //Если стены(дома) по всем 4ём сторонам вокруг
                                 (right == WALL || right == HOUSE)&&
                                 (bot == WALL || bot == HOUSE) &&
                                 (left == WALL || left == HOUSE)) {
                             continue;                                       //То у дома нет выхода к дороге, не подходит
-
                         }
                         countOfHouses--;
                         matrix[i][j] = HOUSE;

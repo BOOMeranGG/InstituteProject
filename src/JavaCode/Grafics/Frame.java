@@ -15,7 +15,7 @@ public class Frame extends JFrame {
         add(mainPanel);
         setVisible(true);
         setSize(new Dimension(609 + getInsets().left + getInsets().right,
-                678 + getInsets().top + getInsets().bottom));
+                            678 + getInsets().top + getInsets().bottom));
         setMinimumSize(getSize());
         setLocationRelativeTo(null);
         addComponentListener(new ComponentListener() {
@@ -26,17 +26,14 @@ public class Frame extends JFrame {
 
             @Override
             public void componentMoved(ComponentEvent e) {
-
             }
 
             @Override
             public void componentShown(ComponentEvent e) {
-
             }
 
             @Override
             public void componentHidden(ComponentEvent e) {
-
             }
         });
     }

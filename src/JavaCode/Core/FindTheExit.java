@@ -5,6 +5,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Stack;
 
+import static JavaCode.Core.MatrixElements.*;
+
 public class FindTheExit {
     private MatrixElements matrix[][];
     private int x1;
@@ -13,12 +15,10 @@ public class FindTheExit {
     private int y2;
     private List<Cell> roadList; //Путь, которому прошел
 
-    //TODO: ЧЕТКО
     public MatrixElements[][] getMatrix() {
         return matrix;
     }
 
-    //TODO: ЧЕТКО
     public FindTheExit(MatrixElements[][] matrix, int x1, int y1, int x2, int y2) {
         this.x1 = x1;
         this.x2 = x2;
@@ -32,31 +32,26 @@ public class FindTheExit {
     }
 
     /**
-     * основная логика поиска пути
+     * Основная логика поиска пути
      */
-//TODO: ЧЕТКО
     public void findExit() {
-        Cell currentCell = new Cell(x1, y1);    //начальная ячейка
-        matrix[currentCell.getX()][currentCell.getY()] = MatrixElements.VISI;   //отмечаем как посещенная
-        Cell neighbourCell; //ячейка сосед
-        List<Cell> listNeighbours;  //Список соседей
+        Cell currentCell = new Cell(x1, y1);
+        matrix[currentCell.getX()][currentCell.getY()] = VISI;
+        Cell neighbourCell;
+        List<Cell> listNeighbours;
         Stack<Cell> stack = new Stack<>();
-/**
- * Для передачи верной дороги
- * roadList передается геттеру для дальнейшего использоваания
- */
 
         do {
-            listNeighbours = getNeighbours(currentCell);    // Проверяем соседей (количество, расположение)
-            if (listNeighbours.size() != 0) {   //Если у клетки есть непосещённые соседи
-                int randN = (int) (Math.random() * listNeighbours.size());  //Рандомно выбираем куда пойдем
-                neighbourCell = listNeighbours.get(randN);  //List возращает случчайно выбранного соседа
-                stack.push(currentCell);    //Помещаем ячейку, где возник выбор пути
-                currentCell = neighbourCell;    //Произошло перемещение ячейки
-                matrix[currentCell.getX()][currentCell.getY()] = MatrixElements.VISI;//Помечаем как посещенную
-            } else if (!stack.empty()) {    //Если стек НЕ пуст
-                matrix[currentCell.getX()][currentCell.getY()] = MatrixElements.BADROAD;    //Отмечаем ячейку ведущию в тупик
-                currentCell = stack.pop();  //Достаем ячейку, на которой мы делали выбор
+            listNeighbours = getNeighbours(currentCell);
+            if (listNeighbours.size() != 0) {                                   //Если есть куда идти - идём
+                int randN = (int) (Math.random() * listNeighbours.size());
+                neighbourCell = listNeighbours.get(randN);
+                stack.push(currentCell);
+                currentCell = neighbourCell;
+                matrix[currentCell.getX()][currentCell.getY()] = VISI;
+            } else if (!stack.empty()) {                                        //Иначе, возвращаемся назад
+                matrix[currentCell.getX()][currentCell.getY()] = BADROAD;
+                currentCell = stack.pop();
             } else {
                 //Если нет соседей и точек в стеке, но не все точки посещены
                 //выбираем случайную из непосещенных
@@ -70,34 +65,27 @@ public class FindTheExit {
     }
 
     /**
-     * метод, который проверяет, является ли переданная ячейка Cell(напоминаю,
-     * что Cell содержит координаты Х и У) выходом из лабиринта.
-     * Метод возвращает true, если выход найден
+     * Возвращает true, если переданная клетка является выходом
      */
-//TODO: ЧЕТКО
     private boolean isExit(Cell cell) {
         return (x2 == cell.getX()) && (y2 == cell.getY());
     }
 
     /**
-     * в качестве параметра вы передаёте ячейку.
-     * Метод проводит некоторые действия и выясняет,
-     * какие НЕПОСЕЩЁННЫЕ соседи есть у этой ячейки и
-     * возвращает List<Cell> - список со всеми непосещёнными соседями ROAD
+     * @return - список непосещённых соседей
      */
-//TODO: Есть подозрение, что логика храмает
     private List<Cell> getNeighbours(Cell c) {
-        List<Cell> cell_list = new ArrayList<>();   //Создали переменную для возврата данных
+        List<Cell> cell_list = new ArrayList<>();
         int i = c.getX();
         int j = c.getY();
 
-        if (i - 1 > 0 && matrix[i - 1][j] == MatrixElements.ROAD)               //Проверка на верхнего соседа
+        if (i - 1 > 0 && matrix[i - 1][j] == ROAD)                                  //Проверка на верхнего соседа
             cell_list.add(new Cell(i - 1, j));
-        if (j + 1 < ((matrix[0].length * 2 + 1) * 2) && matrix[i][j + 1] == MatrixElements.ROAD)     //Проверка на правого соседа
+        if (j + 1 < ((matrix[0].length * 2 + 1) * 2) && matrix[i][j + 1] == ROAD)   //Проверка на правого соседа
             cell_list.add(new Cell(i, j + 1));
-        if (i + 1 < ((matrix.length * 2 + 1) * 2) && matrix[i + 1][j] == MatrixElements.ROAD)    //Проверка на нижнего соседа
+        if (i + 1 < ((matrix.length * 2 + 1) * 2) && matrix[i + 1][j] == ROAD)      //Проверка на нижнего соседа
             cell_list.add(new Cell(i + 1, j));
-        if (j - 1 > 0 && matrix[i][j - 1] == MatrixElements.ROAD)               //Проверка на левого соседа
+        if (j - 1 > 0 && matrix[i][j - 1] == ROAD)                                  //Проверка на левого соседа
             cell_list.add(new Cell(i, j - 1));
         return cell_list;
     }

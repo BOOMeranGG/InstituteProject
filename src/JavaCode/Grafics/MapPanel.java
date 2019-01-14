@@ -178,56 +178,43 @@ class MapPanel extends JPanel {
     }
 
     private void drawRoad(Graphics g, int i, int j) {
-        //дорога только справа и слева от дороги -> дорога горизонтальная
-        if (right(i, j) && left(i, j) && !bottom(i, j) && !top(i, j)) {
-            g.drawImage(roadH, x1 + i * squareSize, y1 + j * squareSize,
+        if (right(i, j) && left(i, j) && !bottom(i, j) && !top(i, j)) {           //дорога только справа и слева от дороги
+            g.drawImage(roadH, x1 + i * squareSize, y1 + j * squareSize,          //-> дорога горизонтальная
                     squareSize, squareSize, null);
-            //дорога только сверху и снизу от дороги -> дорога вертикальная
-        } else if (top(i, j) && bottom(i, j) && !right(i, j) && !left(i, j)) {
-            g.drawImage(roadV, x1 + i * squareSize, y1 + j * squareSize,
+        } else if (top(i, j) && bottom(i, j) && !right(i, j) && !left(i, j)) {    //дорога только сверху и снизу от дороги
+            g.drawImage(roadV, x1 + i * squareSize, y1 + j * squareSize,          //-> дорога вертикальная
                     squareSize, squareSize, null);
-            //дорога только справа и снизу от дороги
-        } else if (right(i, j) && bottom(i, j) && !left(i, j) && !top(i, j)) {
+        } else if (right(i, j) && bottom(i, j) && !left(i, j) && !top(i, j)) {    //дорога только справа и снизу от дороги
             g.drawImage(roadRB, x1 + i * squareSize, y1 + j * squareSize,
                     squareSize, squareSize, null);
-            //дорога только справа и сверху от дороги
-        } else if (right(i, j) && top(i, j) && !left(i, j) && !bottom(i, j)) {
+        } else if (right(i, j) && top(i, j) && !left(i, j) && !bottom(i, j)) {    //дорога только справа и сверху от дороги
             g.drawImage(roadRT, x1 + i * squareSize, y1 + j * squareSize,
                     squareSize, squareSize, null);
-            //дорога только слева и снизу от дороги
-        } else if (left(i, j) && bottom(i, j) && !right(i, j) && !top(i, j)) {
+        } else if (left(i, j) && bottom(i, j) && !right(i, j) && !top(i, j)) {    //дорога только слева и снизу от дороги
             g.drawImage(roadLB, x1 + i * squareSize, y1 + j * squareSize,
                     squareSize, squareSize, null);
-            //дорога только слева и сверху от дороги
-        } else if (left(i, j) && top(i, j) && !right(i, j) && !bottom(i, j)) {
+        } else if (left(i, j) && top(i, j) && !right(i, j) && !bottom(i, j)) {    //дорога только слева и сверху от дороги
             g.drawImage(roadLT, x1 + i * squareSize, y1 + j * squareSize,
                     squareSize, squareSize, null);
-            //дорога только справа, слева и снизу от дороги
-        } else if (right(i, j) && left(i, j) && bottom(i, j)) {
+        } else if (right(i, j) && left(i, j) && bottom(i, j)) {                   //дорога только справа, слева и снизу от дороги
             g.drawImage(roadT, x1 + i * squareSize, y1 + j * squareSize,
                     squareSize, squareSize, null);
-            //дорога только справа, слева и сверху от дороги
-        } else if (right(i, j) && left(i, j) && top(i, j)) {
+        } else if (right(i, j) && left(i, j) && top(i, j)) {                      //дорога только справа, слева и сверху от дороги
             g.drawImage(roadB, x1 + i * squareSize, y1 + j * squareSize,
                     squareSize, squareSize, null);
-            //дорога только справа, снизу и сверху от дороги
-        } else if (right(i, j) && bottom(i, j) && top(i, j)) {
+        } else if (right(i, j) && bottom(i, j) && top(i, j)) {                    //дорога только справа, снизу и сверху от дороги
             g.drawImage(roadL, x1 + i * squareSize, y1 + j * squareSize,
                     squareSize, squareSize, null);
-            //дорога только слева, снизу и сверху от дороги
-        } else if (left(i, j) && bottom(i, j) && top(i, j)) {
+        } else if (left(i, j) && bottom(i, j) && top(i, j)) {                     //дорога только слева, снизу и сверху от дороги
             g.drawImage(roadR, x1 + i * squareSize, y1 + j * squareSize,
                     squareSize, squareSize, null);
-            //дорога горизонтальная
-        } else if (right(i, j) || left(i, j)) {
+        } else if (right(i, j) || left(i, j)) {                                   //дорога горизонтальная
             g.drawImage(roadH, x1 + i * squareSize, y1 + j * squareSize,
                     squareSize, squareSize, null);
-            //дорога вертикальная
-        } else if (bottom(i, j) || top(i, j)) {
+        } else if (bottom(i, j) || top(i, j)) {                                   //дорога вертикальная
             g.drawImage(roadV, x1 + i * squareSize, y1 + j * squareSize,
                     squareSize, squareSize, null);
-            //перекрёсток или единственная дорога
-        } else {
+        } else {                                                                  //перекрёсток или единственная дорога
             g.drawImage(roadX, x1 + i * squareSize, y1 + j * squareSize,
                     squareSize, squareSize, null);
         }
