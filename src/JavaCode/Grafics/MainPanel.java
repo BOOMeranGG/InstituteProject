@@ -54,11 +54,11 @@ class MainPanel extends JPanel {
         textFieldHouses = new JTextField("30");
         add(textFieldHouses);
 
-        sliderWidth = createSlider(7, 50, 15, 1, 12);
+        sliderWidth = createSlider(7, 50, 15, 12);
         add(sliderWidth);
-        sliderHeight = createSlider(7, 50, 15, 1, 12);
+        sliderHeight = createSlider(7, 50, 15, 12);
         add(sliderHeight);
-        sliderHouses = createSlider(2, 50, 30, 1, 156);
+        sliderHouses = createSlider(2, 56, 30, 156);
         add(sliderHouses);
 
         labelSpeed = new JLabel("1");
@@ -82,9 +82,9 @@ class MainPanel extends JPanel {
         add(buttonPlus).setBounds(559, 360, 41, 40);
     }
 
-    private JSlider createSlider(int min, int max, int value, int minor, int major) {
+    private JSlider createSlider(int min, int max, int value, int major) {
         JSlider slider = new JSlider(min, max, value);
-        slider.setMinorTickSpacing(minor);
+        slider.setMinorTickSpacing(1);
         slider.setMajorTickSpacing(major);
         slider.setPaintTicks(true);
         slider.setPaintLabels(true);
@@ -131,8 +131,7 @@ class MainPanel extends JPanel {
             try {
                 slider.setValue(Integer.parseInt(textField.getText()));
                 textField.setText(String.valueOf(slider.getValue()));
-            }
-            catch (Exception exc) {
+            } catch (Exception exc) {
                 textField.setText(String.valueOf(slider.getMaximum()));
                 slider.setValue(slider.getMaximum());
             }

@@ -7,9 +7,6 @@ import java.awt.event.ComponentListener;
 
 public class Frame extends JFrame {
 
-    private int width;
-    private int height;
-
     public Frame() {
         super("Совет депутатов");
         setIconImage(new ImageIcon("res/icon.png").getImage());
@@ -21,8 +18,6 @@ public class Frame extends JFrame {
                 678 + getInsets().top + getInsets().bottom));
         setMinimumSize(getSize());
         setLocationRelativeTo(null);
-        width = getContentPane().getWidth();
-        height = getContentPane().getHeight();
         addComponentListener(new ComponentListener() {
             @Override
             public void componentResized(ComponentEvent e) {
