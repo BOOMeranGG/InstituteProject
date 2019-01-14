@@ -47,9 +47,9 @@ class MainPanel extends JPanel {
         textFieldHouses = new JTextField("30");
         add(textFieldHouses).setBounds(10, 645, 50, 23);
 
-        sliderWidth = createSlider(2, 50, 15, 1, 12);
+        sliderWidth = createSlider(7, 50, 15, 1, 12);
         add(sliderWidth).setBounds(70, 510, 420, 46);
-        sliderHeight = createSlider(2, 50, 15, 1, 12);
+        sliderHeight = createSlider(7, 50, 15, 1, 12);
         add(sliderHeight).setBounds(70, 569, 420, 46);
         sliderHouses = createSlider(2, 50, 30, 1, 156);
         add(sliderHouses).setBounds(70, 622, 420, 46);
@@ -133,7 +133,7 @@ class MainPanel extends JPanel {
         slider.addChangeListener(e -> {
             textField.setText(String.valueOf(slider.getValue()));
             int s = sliderHeight.getValue() * sliderWidth.getValue();
-            sliderHouses.setMaximum(s / 2);
+            sliderHouses.setMaximum(s / 4);
             sliderHouses.setMinorTickSpacing(s / 49);
             sliderHouses.setMajorTickSpacing(s / 7);
         });

@@ -102,8 +102,10 @@ class MapPanel extends JPanel {
     void displayWay() {
         Cell begin = getRoad(houseBeginPoint);
         Cell end = getRoad(houseEndPoint);
-        wayFinder = new FindTheExit(field, begin.x, begin.y, end.x, end.y);
-        wayFinder.findExit();
+        if  (wayFinder == null) {
+            wayFinder = new FindTheExit(field, begin.x, begin.y, end.x, end.y);
+            wayFinder.findExit();
+        }
         repaint();
     }
 
