@@ -152,16 +152,22 @@ public class Labyrinth {
             countOfHouses = countOfWall - 1;
 
         int chance = (countOfWall / countOfHouses);
+        if (chance == 1)
+            chance = 2;
         exitlabel:
         while (true) {
             for (int i = 1; i < matrix.length - 1; i++) {
                 for (int j = 1; j < matrix[0].length - 1; j++) {
-
                     if (matrix[i][j] != MatrixElements.WALL)                //Если не стена, то пропускаем
                         continue;
                     int randN = (int) (Math.random() * chance);             //Рандомим число
                     if (randN == 1) {
-                        //if (matrix[i])
+                        if (matrix[i - 1][j] == MatrixElements.WALL &&      //Если стены по всем 4ём сторонам вокруг
+                                matrix[i][j + 1] == MatrixElements.WALL &&
+                                matrix[i + 1][j] == MatrixElements.WALL &&
+                                matrix[i][j - 1] == MatrixElements.WALL) {
+                            continue;                                       //То у дома нет выхода к дороге, не подходит
+                        }
                         countOfHouses--;
                         matrix[i][j] = MatrixElements.HOUSE;
                         if (countOfHouses == 0)                             //Если дома закончились, выход
