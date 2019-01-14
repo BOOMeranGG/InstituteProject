@@ -143,10 +143,10 @@ public class Labyrinth {
     public void generateHouses(int countOfHouses) {
         int countOfWall = 0;
         for (int i = 0; i < matrix.length; i++) {
-            countOfWall += Collections.frequency(Arrays.asList(matrix[0]), MatrixElements.WALL;
+            countOfWall += Collections.frequency(Arrays.asList(matrix[0]), MatrixElements.WALL);
         }
         countOfWall -= (matrix.length * matrix[0].length);
-        
+
         int chance = (countOfWall / countOfHouses);
         exitlabel:
         while (true) {
