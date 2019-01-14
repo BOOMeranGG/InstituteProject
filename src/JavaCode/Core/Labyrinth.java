@@ -2,6 +2,8 @@ package JavaCode.Core;
 
 import java.util.*;
 
+import static JavaCode.Core.MatrixElements.*;
+
 public class Labyrinth {
     private int height;
     private int width;
@@ -35,7 +37,7 @@ public class Labyrinth {
         Stack<Cell> stack = new Stack<>();
 
         generateEmptyMatrix();
-        matrix[currentCell.getX()][currentCell.getY()] = MatrixElements.ROAD;
+        matrix[currentCell.getX()][currentCell.getY()] = ROAD;
         do {
             listNeighbours = getNeighbours(currentCell);
             if (listNeighbours.size() != 0) {  //Если у клетки есть непосещённые соседи
@@ -44,7 +46,7 @@ public class Labyrinth {
                     stack.push(currentCell);
                     removeWall(currentCell, neighbourCell);
                     currentCell = neighbourCell;
-                    matrix[currentCell.getX()][currentCell.getY()] = MatrixElements.ROAD;
+                    matrix[currentCell.getX()][currentCell.getY()] = ROAD;
             } else if (!stack.empty()) {
                 currentCell = stack.pop();
             } else {
@@ -65,9 +67,9 @@ public class Labyrinth {
             for (int j = 0; j < matrix[i].length; j++) {
                 if ((i % 2 != 0 && j % 2 != 0) && (i < matrix.length - 1    //Если ячейка нечётная по x и y
                         && j < matrix[i].length))                           //И находится в пределах стен лабиринта
-                    matrix[i][j] = MatrixElements.CELL;                     //То это - клетка
+                    matrix[i][j] = CELL;                     //То это - клетка
                 else
-                    matrix[i][j] = MatrixElements.WALL;                     //В остальных случаях - стена
+                    matrix[i][j] = WALL;                     //В остальных случаях - стена
             }
         }
     }
@@ -81,13 +83,13 @@ public class Labyrinth {
         int i = c.getX();
         int j = c.getY();
 
-        if (i - 2 > 0 && matrix[i - 2][j] == MatrixElements.CELL)               //Проверка на верхнего соседа
+        if (i - 2 > 0 && matrix[i - 2][j] == CELL)               //Проверка на верхнего соседа
             cell_list.add(new Cell(i - 2, j));
-        if (j + 2 < (width * 2) && matrix[i][j + 2] == MatrixElements.CELL)     //Проверка на правого соседа
+        if (j + 2 < (width * 2) && matrix[i][j + 2] == CELL)     //Проверка на правого соседа
             cell_list.add(new Cell(i, j + 2));
-        if (i + 2 < (height * 2) && matrix[i + 2][j] == MatrixElements.CELL)    //Проверка на нижнего соседа
+        if (i + 2 < (height * 2) && matrix[i + 2][j] == CELL)    //Проверка на нижнего соседа
             cell_list.add(new Cell(i + 2, j));
-        if (j - 2 > 0 && matrix[i][j - 2] == MatrixElements.CELL)               //Проверка на левого соседа
+        if (j - 2 > 0 && matrix[i][j - 2] == CELL)               //Проверка на левого соседа
             cell_list.add(new Cell(i, j - 2));
 
         return cell_list;
@@ -102,7 +104,7 @@ public class Labyrinth {
             for (int j = 1; j < matrix[i].length - 1; j++) {
                 if ((i % 2 != 0 && j % 2 != 0) && (i < matrix.length - 1 //Если ячейка нечётная по x и y
                         && j < matrix[i].length - 1))
-                    if (matrix[i][j] == MatrixElements.CELL)
+                    if (matrix[i][j] == CELL)
                         return true;
             }
         }
@@ -125,9 +127,9 @@ public class Labyrinth {
         int newY = y_1 - y_2;
 
         if (newX != 0) {
-            matrix[(x_1 + x_2) / 2][y_1] = MatrixElements.ROAD;
+            matrix[(x_1 + x_2) / 2][y_1] = ROAD;
         } else if (newY != 0) {
-            matrix[x_1][(y_1 + y_2) / 2] = MatrixElements.ROAD;
+            matrix[x_1][(y_1 + y_2) / 2] = ROAD;
         }
     }
 
@@ -143,13 +145,13 @@ public class Labyrinth {
         int countOfWall = 0;
         for (int i = 0; i < matrix.length; i++) {
             for (int j = 0; j < matrix[0].length; j++) {
-                if (matrix[i][j] == MatrixElements.WALL)
+                if (matrix[i][j] == WALL)
                     countOfWall++;
             }
         }
-        countOfWall -= (2 * (matrix.length + matrix[0].length));
+        countOfWall -= (2 * (matrix.length + matrix[0].length) - 4);
         if (countOfHouses > countOfWall)                                    //Если количество домов задано слишком много
-            countOfHouses = countOfWall - 1;
+            countOfHouses = countOfWall;
 
         int chance = (countOfWall / countOfHouses);
         if (chance == 1)
@@ -158,18 +160,24 @@ public class Labyrinth {
         while (true) {
             for (int i = 1; i < matrix.length - 1; i++) {
                 for (int j = 1; j < matrix[0].length - 1; j++) {
-                    if (matrix[i][j] != MatrixElements.WALL)                //Если не стена, то пропускаем
+                    if (matrix[i][j] != WALL)                //Если не стена, то пропускаем
                         continue;
                     int randN = (int) (Math.random() * chance);             //Рандомим число
                     if (randN == 1) {
-                        if (matrix[i - 1][j] == MatrixElements.WALL &&      //Если стены по всем 4ём сторонам вокруг
-                                matrix[i][j + 1] == MatrixElements.WALL &&
-                                matrix[i + 1][j] == MatrixElements.WALL &&
-                                matrix[i][j - 1] == MatrixElements.WALL) {
+                        MatrixElements top = matrix[i - 1][j];
+                        MatrixElements right = matrix[i][j + 1];
+                        MatrixElements bot = matrix[i + 1][j];
+                        MatrixElements left = matrix[i][j - 1];
+                                                                            //Если стены(дома) по всем 4ём сторонам вокруг
+                        if ((top == WALL || top == HOUSE) &&
+                                (right == WALL || right == HOUSE)&&
+                                (bot == WALL || bot == HOUSE) &&
+                                (left == WALL || left == HOUSE)) {
                             continue;                                       //То у дома нет выхода к дороге, не подходит
+
                         }
                         countOfHouses--;
-                        matrix[i][j] = MatrixElements.HOUSE;
+                        matrix[i][j] = HOUSE;
                         if (countOfHouses == 0)                             //Если дома закончились, выход
                             break exitlabel;
                     }
