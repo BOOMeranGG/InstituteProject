@@ -135,7 +135,6 @@ class MapPanel extends JPanel {
     }
 
     private void drawField(Graphics g) {
-        System.out.println("[" + getWidth() + ", " + getHeight() + "]");
         squareSize = Math.min(getWidth() / width, getHeight() / height);
         x1 = (getWidth() - width * squareSize) / 2;
         y1 = (getHeight() - height * squareSize) / 2;
