@@ -55,7 +55,7 @@ class MapPanel extends JPanel {
     MapPanel() {
         generateMap(15, 15, 30);
         thread = new Thread();
-        regenerate();
+        reGenerate();
         mapMouseListener = new MapMouseListener(this, houses, x1, y1, squareSize);
         addMouseListener(mapMouseListener);
         setSpeed(1);
@@ -71,7 +71,7 @@ class MapPanel extends JPanel {
         this.speed = speed;
     }
 
-    void regenerate() {
+    void reGenerate() {
         manBool = false;
         thread.stop();
         mapGenerator = new Labyrinth(width / 2, height / 2);
