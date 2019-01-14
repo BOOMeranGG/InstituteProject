@@ -328,6 +328,7 @@ class MapPanel extends JPanel {
     private void clearWay() {
         thread.stop();
         manBool = false;
+        wayFinder = null;
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
                 if (field[i][j].equals(MatrixElements.VISI)
