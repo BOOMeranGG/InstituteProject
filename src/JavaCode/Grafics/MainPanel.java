@@ -169,9 +169,9 @@ class MainPanel extends JPanel {
         textFieldWidth.setBounds(10, 533 + height, 50, 23);
         textFieldHeight.setBounds(10, 592 + height, 50, 23);
         textFieldHouses.setBounds(10, 645 + height, 50, 23);
-        sliderWidth.setBounds(70, 510 + height, 420, 46);
-        sliderHeight.setBounds(70, 569 + height, 420, 46);
-        sliderHouses.setBounds(70, 622 + height, 420, 46);
+        sliderWidth.setBounds(70, 510 + height, 420 + width, 46);
+        sliderHeight.setBounds(70, 569 + height, 420 + width, 46);
+        sliderHouses.setBounds(70, 622 + height, 420 + width, 46);
 
         labelSpeed.setBounds(552 + width, 360, 42, 40);
         buttonA.setBounds(510 + width, 10, 40, 40);
